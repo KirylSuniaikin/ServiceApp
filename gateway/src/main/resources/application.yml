@@ -1,0 +1,71 @@
+server:
+  port: 8085
+
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: app-service-user
+            uri: lb://APP-SERVICE
+            predicates:
+              - Path=/user/**
+          - id: app-service-appinfo
+            uri: lb://APP-SERVICE
+            predicates:
+              - Path=/appInfo/**
+          - id: app-service-shop
+            uri: lb://APP-SERVICE
+            predicates:
+              - Path=/shop/**
+          - id: app-service-responses
+            uri: lb://APP-SERVICE
+            predicates:
+              - Path=/responses/**
+          - id: app-service-tickets
+            uri: lb://APP-SERVICE
+            predicates:
+              - Path=/tickets/**
+          - id: eureka-server
+            uri: http://localhost:8761
+            predicates:
+              - Path=/eureka/main
+            filters:
+              - SetPath=/
+          - id: eureka-server-static
+            uri: http://localhost:8761
+            predicates:
+              - Path=/eureka/**
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://cognito-idp.eu-north-1.amazonaws.com/eu-north-1_q2RfMMPLp
+
+
+# EUREKA
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# ZIPKIN
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: info
+    org:
+      springframework.cloud.gateway: debug
+      springframework.security: debug
+      springframework.security.oauth2: DEBUG
+

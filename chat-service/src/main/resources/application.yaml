@@ -1,0 +1,32 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: chat-service
+
+
+# EUREKA
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# AWS
+aws:
+  dynamodb:
+#    accessKey: AKIAXEVXYSIM3C7H7MSU
+#    secretKey: 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
+
+    region: us-east-1,
+    endpoint: https://dynamodb.us-east-1.amazonaws.co
+
+socketio:
+  socket-server:
+    port: 8088
+
+#logging:
+#  level:
+#    root: DEBUG
